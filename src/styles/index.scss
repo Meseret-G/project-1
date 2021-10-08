@@ -4,3 +4,26 @@
 body {
   background-color: $favColor !important;
 }
+
+.joke-btn {
+  background-color: rgb(80, 51, 51);
+  color: whitesmoke;
+}
+.App {
+  margin: auto;
+  margin-top: 150px;
+  margin-bottom: 150px;
+  margin-left: 80px;
+  margin-right: 80px;
+  height: 800px;
+  width: 700px;
+  border-radius: 10px;
+  background-color: gray;
+  padding: 40px;
+  text-align: center;
+  color: rgb(143, 32, 32);
+  
+}
+
+
+
