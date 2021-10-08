@@ -1,38 +1,44 @@
 import React, { useState } from 'react';
+import getJoke from '../api/data/jokeData';
 
 function Initialize() {
-  const [domWriting, setDomWriting] = useState('Nothing Here!');
+  // getJoke().then(console.warn);
 
-  const handleClick = (e) => {
-    console.warn(`You clicked ${e.target.id}`);
-    setDomWriting(`You clicked ${e.target.id}! Check the Console!`);
+  const [btnText, setBtnText] = useState('GET A JOKE');
+  const [joke, setJoke] = useState({});
+  console.warn(joke);
+  const setButton = (text) => {
+    setBtnText(text);
   };
-
+  const getAJoke = () => {
+    getJoke().then((obj) => {
+      setJoke({
+        setup: obj.setup,
+        punchline: obj.delivery,
+      });
+      setButton('GET PUNCHLINE');
+    });
+  };
   return (
     <div className="App">
-      <h2>INSIDE APP COMPONENT</h2>
-      <div>
-        <button
-          type="button"
-          id="this-button"
-          className="btn btn-info"
-          onClick={handleClick}
-        >
-          I am THIS button
-        </button>
-      </div>
-      <div>
-        <button
-          type="button"
-          id="that-button"
-          className="btn btn-primary mt-3"
-          onClick={handleClick}
-        >
-          I am THAT button
-        </button>
-      </div>
-      <h3>{domWriting}</h3>
+      <h1>{ joke.setup }</h1>
+      <h5>{ btnText !== 'GET PUNCHLINE' ? joke.punchline : '' }</h5>
+      {btnText === 'GET A JOKE' || btnText === 'GET ANOTHER JOKE'
+        ? (
+          <button onClick={getAJoke} className="joke-btn" type="button">
+            {btnText}
+          </button>
+        ) : (
+          <button
+            onClick={() => setButton('GET ANOTHER JOKE')}
+            className="joke-btn"
+            type="button"
+          >
+            {btnText}
+          </button>
+        )}
     </div>
+
   );
 }
 
