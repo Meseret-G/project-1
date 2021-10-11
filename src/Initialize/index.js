@@ -1,44 +1,53 @@
-import React, { useState } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from 'react';
 import getJoke from '../api/data/jokeData';
+// import JokeContainer from '../components/JokeContainer';
 
 function Initialize() {
-  // getJoke().then(console.warn);
-
-  const [btnText, setBtnText] = useState('GET A JOKE');
+  const [btnText, setBtnText] = useState('');
   const [joke, setJoke] = useState({});
-  console.warn(joke);
-  const setButton = (text) => {
-    setBtnText(text);
-  };
+  // const [showPunchline, setShowPunchline] = useState(false);
+
   const getAJoke = () => {
     getJoke().then((obj) => {
       setJoke({
         setup: obj.setup,
-        punchline: obj.delivery,
+        punchline: obj.delivery, // I'm in here! - Trinity
       });
-      setButton('GET PUNCHLINE');
+
+      setBtnText('Get Punchline');
     });
   };
+
+  useEffect(() => {
+    getJoke().then((obj) => {
+      setJoke({
+        setup: obj.setup,
+        punchline: obj.delivery, // I'm in here! - Trinity
+      });
+
+      setBtnText('Get Punchline');
+    });
+  }, []);
+
   return (
     <div className="App">
-      <h1>{ joke.setup }</h1>
-      <h5>{ btnText !== 'GET PUNCHLINE' ? joke.punchline : '' }</h5>
-      {btnText === 'GET A JOKE' || btnText === 'GET ANOTHER JOKE'
-        ? (
-          <button onClick={getAJoke} className="joke-btn" type="button">
-            {btnText}
-          </button>
-        ) : (
-          <button
-            onClick={() => setButton('GET ANOTHER JOKE')}
-            className="joke-btn"
-            type="button"
-          >
-            {btnText}
-          </button>
-        )}
+      <h1>{joke.setup}</h1>
+      <h5>{btnText !== 'Get Punchline' ? joke.punchline : ''}</h5>
+      {!btnText ? 'Loading...' : btnText === 'Get Another Joke' ? (
+        <button onClick={getAJoke} className="btn btn-success" type="button">
+          {btnText}
+        </button>
+      ) : (
+        <button
+          onClick={() => setBtnText('Get Another Joke')}
+          className="btn btn-success"
+          type="button"
+        >
+          {btnText}
+        </button>
+      )}
     </div>
-
   );
 }
 
